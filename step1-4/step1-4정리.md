@@ -43,3 +43,6 @@
   * Step over : 해당 라인의 코드를 실행한 후 다음 라인으로 넘어간다.
   * Step into : 함수를 만날경우, 함수 안으로 들어가서 다음 step을 진행한다.
   * Step out : 함수를 빠져나와 다음 step 시작 전에 멈춘다.
+
+
+[참고 링크](https://developers.google.com/web/tools/chrome-devtools/javascript/step-code?hl=ko)
