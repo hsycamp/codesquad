@@ -62,3 +62,22 @@
   * 모듈 안에 선언한 모든 것들은 해당 모듈 내에서만 참조 가능하다.
   * 모듈 안에 선언한 항목을 다른 모듈에서 사용하려면 export객체를 사용해야 한다.
 
+~~~javascript
+// weapon.js
+const attack = 30;
+
+exports.gun = (power) => attack * power * power;
+exports.sword = (power) => attack * power;
+~~~
+
+~~~javascript
+// app.js
+const weapon = require('./weapon.js'); // == require('./weapon')
+
+console.log(`총 사용시 공격력 : ${weapon.gun(10)}`);
+console.log(`칼 사용시 공격력 : ${weapon.sword(10)}`);
+~~~
+~~~
+총 사용시 공격력 : 3000
+칼 사용시 공격력 : 300
+~~~
