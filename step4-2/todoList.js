@@ -84,7 +84,23 @@ function application(line) {
     }
 
     const updateData = function (order) {
-        
+        const id = order.match(/(?<=update\$)\d{5}(?=\$)/);
+        const status = order.match(/(?<=\d{5}\$)(todo|doing|done)$/g);
+        if (!utils.isValidId(id) || !utils.isValidStatus(status)) return r.prompt();
+
+        todos.some((el, i) => {
+            if (el['id'] === Number(id[0])) {
+                setTimeout(() => {
+                    console.log(`${el['name']}가 ${el['status']}에서 ${status[0]}으로 상태가 변경됐습니다.`);
+                    el['status'] = status[0];
+                    setTimeout(() => showAll(), 1000);
+                }, 3000);
+                return true;
+            } else if (i === todos.length - 1) {
+                console.log('없는 id 입니다.');
+                r.prompt();
+            }
+        });
     }
 
     if (line === 'show$all') showAll();
