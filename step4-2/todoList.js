@@ -34,7 +34,9 @@ r.on('close', function () {
 
 function application(line) {
     const showAll = function () {
-        
+        const theNumOf = status => todos.filter((el) => el['status'] === status).length;
+        console.log(`현재상태 : todo ${theNumOf('todo')}개, doing ${theNumOf('doing')}개, done ${theNumOf('done')}개`);
+        r.prompt();
     }
 
     const showEachData = function (order) {
