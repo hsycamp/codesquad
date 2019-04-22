@@ -67,7 +67,20 @@ function application(line) {
     }
 
     const deleteData = function (order) {
-        
+        const id = order.match(/(?<=delete\$)\d{5}$/);
+        if (!utils.isValidId(id)) return r.prompt();
+
+        todos.some((el, i) => {
+            if (el['id'] === Number(id[0])) {
+                console.log(`${el['name']}(${el['status']})가 목록에서 삭제됐습니다.`);
+                todos.splice(i, 1);
+                setTimeout(() => showAll(), 1000);
+                return true;
+            } else if (i === todos.length - 1) {
+                console.log('없는 id 입니다.');
+                r.prompt();
+            }
+        });
     }
 
     const updateData = function (order) {
