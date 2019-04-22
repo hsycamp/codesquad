@@ -51,7 +51,19 @@ function application(line) {
     }
 
     const addData = function (order) {
-        
+        const name = order.match(/(?<=add\$)\D*(?=\$)/);
+        const tag = order.match(/(?<=\[\")[a-zA-Z]*(?=\"\])/i);
+        if (!utils.isValidName(name) || !utils.isValidTag(tag)) return r.prompt();
+
+        const objToAdd = {};
+
+        objToAdd['name'] = name[0];
+        objToAdd['tag'] = tag[0];
+        objToAdd['status'] = 'todo';
+        objToAdd['id'] = utils.makeRanNum(5, todos);
+        todos.push(objToAdd);
+        console.log(`${objToAdd['name']} 1개가 추가됐습니다.(id : ${objToAdd['id']})`);
+        setTimeout(() => showAll(), 1000);
     }
 
     const deleteData = function (order) {
