@@ -40,7 +40,14 @@ function application(line) {
     }
 
     const showEachData = function (order) {
-        
+        const status = order.match(/(?<=show\$)(todo|doing|done)$/);
+        if (!utils.isValidStatus(status)) return r.prompt();
+
+        const nameAndIdArr = todos
+            .filter((el) => el['status'] === status[0])
+            .map((el) => [el['name'], el['id'] + '번']);
+        console.log(`${status[0]}리스트 총 ${nameAndIdArr.length}건 : '${nameAndIdArr.join('\' \'')}'`);
+        r.prompt();
     }
 
     const addData = function (order) {
