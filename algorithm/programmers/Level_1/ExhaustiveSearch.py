@@ -1,4 +1,4 @@
-# solution #1 //시간초과
+# solution #1
 def solution(answers):
     person1 = [1, 2, 3, 4, 5]
     person2 = [2, 1, 2, 3, 2, 4, 2, 5]
@@ -6,9 +6,9 @@ def solution(answers):
     count = [0, 0, 0]
     result = []
     for i in range(len(answers)):
-        j1 = i % (len(person1)+1)
-        j2 = i % (len(person2)+1)
-        j3 = i % (len(person3)+1)
+        j1 = i % len(person1)
+        j2 = i % len(person2)
+        j3 = i % len(person3)
         if(answers[i] == person1[j1]):
             count[0] += 1
         if(answers[i] == person2[j2]):
