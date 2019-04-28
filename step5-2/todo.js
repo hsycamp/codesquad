@@ -48,7 +48,7 @@ const View = function () {
 
 View.prototype = {
     showAll(countResult) {
-        console.log('현재상태 : ' + Object.entries(countResult)).map(([key, value]) => `${key}:${value}개`).join(', ');
+        console.log('현재상태 : ' + Object.entries(countResult).map(([key, value]) => `${key}:${value}개`).join(', '));
     },
     showEachData(status, countNumber, targetData) {
         console.log(`${status}리스트 : 총 ${countNumber}건 : ${targetData}`)
