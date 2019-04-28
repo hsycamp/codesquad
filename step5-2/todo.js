@@ -41,7 +41,9 @@ const View = function () {
 };
 
 View.prototype = {
-    showAll() { },
+    showAll(countResult) {
+        console.log('현재상태 : ' + Object.entries(countResult)).map(([key, value]) => `${key}:${value}개`).join(', ');
+    },
     showEachData(status, countNumber, targetData) {
         console.log(`${status}리스트 : 총 ${countNumber}건 : ${targetData}`)
     },
@@ -58,14 +60,25 @@ const Controller = function () {
 };
 
 Controller.prototype = {
-    showAll() { },
+    showAll() {
+        const countResult = {
+            todo: this.model.countData('todo'),
+            doing: this.model.countData('doing'),
+            done: this.model.countData('done')
+        }
+        this.view.showAll(countResult);
+    },
     showEachData(status) {
         const countNumber = this.model.countData(status);
         const targetData = this.model.getMatchedData(status);
         this.view.showEachData(status, countNumber, targetData);
     },
     showData(type) {
-        if (type === 'all') this.showAll();
+        if (type === 'all') {
+            this.showAll();
+            return;
+
+        }
         return this.showEachData(type);
     },
     addData(name, tags) {
