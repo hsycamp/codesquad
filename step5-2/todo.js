@@ -40,16 +40,38 @@ Controller.prototype = {
     updateData() { }
 };
 
-const App = {
+const Util = function () {
+};
+
+Util.prototype = {
+    parseCommand() { },
+    getKeyCommand() { },
+    getRestCommand() { }
+}
+
+
+
+const app = {
     start() {
-        rl.setPrompt();
-        rl.prompt;
-        rl.on('line');
+        rl.setPrompt('명령하세요.(종료하려면 "q"를 입력하세요.) : ');
+        rl.prompt();
+        rl.on('line', (command) => {
+            if (command == 'q') rl.close();
+            command = util.parseCommand(command);
+            const keyCommand = util.getKeyCommand(command);
+            const restCommand = util.getRestCommand(command);
+            controller[keyCommand](...restCommand);
+            rl.prompt();
+        });
+        rl.on('close', () => {
+            process.exit();
+        })
     }
 };
 
 const model = new Model();
 const view = new View();
 const controller = new Controller();
+const util = new Util();
 
-App.start();
+app.start();
