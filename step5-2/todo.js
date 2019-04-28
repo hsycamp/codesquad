@@ -10,7 +10,17 @@ const Model = function () {
 
 Model.prototype = {
     findData() { },
-    addData() { },
+    addData(name, tags) {
+        tags = tags.replace(/\[|\]|\"\'/g, '').split(',');
+        const id = this.makeId();
+        const todoData = {
+            name,
+            tags,
+            status: 'todo',
+            id
+        }
+        this.todoList.push(todoData);
+    },
     deleteData() { },
     updateData() { },
     makeId() { }
@@ -35,7 +45,11 @@ const Controller = function () {
 Controller.prototype = {
     showAll() { },
     showEachData() { },
-    addData() { },
+    addData(name, tags) {
+        this.model.addData(name, tags);
+        const id = this.model.findData(name).id;
+        this.view.showAddResult(name, id);
+    },
     deleteData() { },
     updateData() { }
 };
@@ -58,8 +72,6 @@ Util.prototype = {
         return keyMap[keyCommand];
     },
 }
-
-
 
 const app = {
     start() {
