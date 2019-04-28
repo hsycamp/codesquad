@@ -44,9 +44,19 @@ const Util = function () {
 };
 
 Util.prototype = {
-    parseCommand() { },
-    getKeyCommand() { },
-    getRestCommand() { }
+    parseCommand(command) {
+        return command.split('$');
+    },
+    getKeyCommand(command) {
+        const keyMap = {
+            'show': 'showData',
+            'add': 'addData',
+            'delete': 'deleteData',
+            'update': 'updateData'
+        }
+        const keyCommand = command.shift();
+        return keyMap[keyCommand];
+    },
 }
 
 
@@ -59,7 +69,7 @@ const app = {
             if (command == 'q') rl.close();
             command = util.parseCommand(command);
             const keyCommand = util.getKeyCommand(command);
-            const restCommand = util.getRestCommand(command);
+            const restCommand = command;
             controller[keyCommand](...restCommand);
             rl.prompt();
         });
