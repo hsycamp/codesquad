@@ -23,7 +23,10 @@ Model.prototype = {
         }
         this.todoList.push(todoData);
     },
-    deleteData() { },
+    deleteData(id) {
+        const targetIndex = this.getIndex(id);
+        this.todoList.splice(targetIndex, 1);
+    },
     updateData() { },
     makeId() {
         return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
@@ -33,6 +36,9 @@ Model.prototype = {
     },
     getMatchedData(status) {
         return this.findData('status', status).map(el => `'${el.name}, ${el.id}번'`).join(', ');
+    },
+    getIndex(id) {
+        return this.todoList.findIndex(el => el.id === id);
     }
 
 };
@@ -50,7 +56,9 @@ View.prototype = {
     showAddResult(name, id) {
         console.log(`${name} 1개가 추가되었습니다.(id: ${id})`);
     },
-    showDeleteResult() { },
+    showDeleteResult(name, status) {
+        console.log(`${name} ${status}가 목록에서 삭제되었습니다.`)
+    },
     showupdateResult() { },
 };
 
@@ -86,7 +94,14 @@ Controller.prototype = {
         const id = this.model.findData('name', name)[0].id;
         this.view.showAddResult(name, id);
     },
-    deleteData() { },
+    deleteData(id) {
+        const {
+            name,
+            status
+        } = this.model.findData('id', id)[0];
+        this.model.deleteData(id);
+        this.view.showDeleteResult(name, status);
+    },
     updateData() { }
 };
 
