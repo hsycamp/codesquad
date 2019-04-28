@@ -27,7 +27,14 @@ Model.prototype = {
     updateData() { },
     makeId() {
         return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+    },
+    countData(status) {
+        return this.todoList.filter(todoData => todoData.status === status).length;
+    },
+    getMatchedData(status) {
+        return this.findData('status', status).map(el => `'${el.name}, ${el.id}번'`).join(', ');
     }
+
 };
 
 const View = function () {
@@ -35,7 +42,9 @@ const View = function () {
 
 View.prototype = {
     showAll() { },
-    showEachData() { },
+    showEachData(status, countNumber, targetData) {
+        console.log(`${status}리스트 : 총 ${countNumber}건 : ${targetData}`)
+    },
     showAddResult(name, id) {
         console.log(`${name} 1개가 추가되었습니다.(id: ${id})`);
     },
@@ -50,10 +59,18 @@ const Controller = function () {
 
 Controller.prototype = {
     showAll() { },
-    showEachData() { },
+    showEachData(status) {
+        const countNumber = this.model.countData(status);
+        const targetData = this.model.getMatchedData(status);
+        this.view.showEachData(status, countNumber, targetData);
+    },
+    showData(type) {
+        if (type === 'all') this.showAll();
+        return this.showEachData(type);
+    },
     addData(name, tags) {
         this.model.addData(name, tags);
-        const id = this.model.findData('name',name)[0].id;
+        const id = this.model.findData('name', name)[0].id;
         this.view.showAddResult(name, id);
     },
     deleteData() { },
