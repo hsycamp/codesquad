@@ -53,6 +53,10 @@ Controller.prototype = {
   undo() {
     const historyObj = this.model.undo();
     this.view.showUndoRedoResult(historyObj);
+  },
+  redo() {
+    const historyObj = this.model.redo();
+    this.view.showUndoRedoResult(historyObj);
   }
 };
 module.exports = Controller;

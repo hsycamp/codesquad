@@ -2,6 +2,7 @@ const Model = function(initialData, MAX_HISTORY_CAPACITY) {
   this.todoList = initialData || [];
   this.historyStack = [];
   this.MAX_HISTORY_CAPACITY = MAX_HISTORY_CAPACITY;
+  this.redoStack = [];
 };
 Model.prototype = {
   getId(key, value) {
@@ -31,7 +32,7 @@ Model.prototype = {
     const targetIndex = this.getIndex(id);
     const targetData = this.todoList[targetIndex];
     if (targetData.status === status) throw Error(id);
-    this.saveHistory('updateData', [id, targetData.status])
+    this.saveHistory("updateData", [id, targetData.status]);
     targetData.status = status;
     return targetData;
   },
@@ -58,7 +59,13 @@ Model.prototype = {
     if (this.historyStack.length === 0) throw Error("EmptyStackError");
     const { keyCommand, recentData } = this.historyStack.pop();
     const previousData = this[keyCommand](...recentData);
-    this.historyStack.pop();
+    this.redoStack.push(this.historyStack.pop());
+    return { keyCommand, previousData };
+  },
+  redo() {
+    if (this.redoStack.length === 0) throw Error("EmptyStackError");
+    const { keyCommand, recentData } = this.redoStack.pop();
+    const previousData = this[keyCommand](...recentData);
     return { keyCommand, previousData };
   }
 };
