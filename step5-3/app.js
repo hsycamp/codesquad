@@ -8,20 +8,14 @@ const Model = require("./model");
 const View = require("./view");
 const Controller = require("./controller");
 const ErrorHandler = require("./errorhandler");
-
-const fontColorRed = "\x1b[31m%s\x1b[0m";
-const fontColorBlue = "\x1b[36m%s\x1b[0m";
-const ID_LENGTH = 4;
-const UPDATE_DELAY = 3000;
-const SHOW_DELAY = 1000;
-const MAX_HISTORY_CAPACITY = 3;
+const constants = require("./constant_values");
 const initialData = [];
 
 const util = new TodoUtil();
-const model = new Model(initialData, MAX_HISTORY_CAPACITY);
-const view = new View(fontColorBlue);
-const controller = new Controller(model, view, UPDATE_DELAY, SHOW_DELAY);
-const errorHandler = new ErrorHandler(controller, fontColorRed, ID_LENGTH);
+const model = new Model(initialData, constants.MAX_HISTORY_CAPACITY);
+const view = new View(constants.fontColorBlue);
+const controller = new Controller(model, view, constants.UPDATE_DELAY, constants.SHOW_DELAY);
+const errorHandler = new ErrorHandler(controller, constants.fontColorRed, constants.ID_LENGTH);
 
 const app = {
   util: util,
