@@ -1,6 +1,8 @@
-const Controller = function(model, view) {
+const Controller = function(model, view, UPDATE_DELAY, SHOW_DELAY) {
   this.model = model;
   this.view = view;
+  this.UPDATE_DELAY = UPDATE_DELAY;
+  this.SHOW_DELAY = SHOW_DELAY;
 };
 Controller.prototype = {
   showAll() {
@@ -41,12 +43,12 @@ Controller.prototype = {
     setTimeout(() => {
       this.view.showResult("updateData", changedData);
       this.showFinalResult();
-    }, 3000);
+    }, this.UPDATE_DELAY);
   },
   showFinalResult() {
     setTimeout(() => {
       this.showAll();
-    }, 1000);
+    }, this.SHOW_DELAY);
   }
 };
 module.exports = Controller;

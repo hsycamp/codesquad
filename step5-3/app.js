@@ -9,15 +9,18 @@ const View = require("./view");
 const Controller = require("./controller");
 const ErrorHandler = require("./errorhandler");
 
-const blueColor = "\x1b[36m%s\x1b[0m";
-const redColor = "\x1b[31m%s\x1b[0m";
+const fontColorRed = '\x1b[31m%s\x1b[0m';
+const fontColorBlue = '\x1b[36m%s\x1b[0m';
+const ID_LENGTH = 4;
+const UPDATE_DELAY = 3000;
+const SHOW_DELAY = 1000;
 const initialData = [];
 
 const util = new TodoUtil();
 const model = new Model(initialData);
-const view = new View(blueColor);
-const controller = new Controller(model, view);
-const errorHandler = new ErrorHandler(redColor);
+const view = new View(fontColorBlue);
+const controller = new Controller(model, view, UPDATE_DELAY, SHOW_DELAY);
+const errorHandler = new ErrorHandler(controller, fontColorRed, ID_LENGTH);
 
 const app = {
   util: util,
@@ -35,7 +38,7 @@ const app = {
         this.util.checkArgsNumber(keyCommand, restCommand);
         this.controller[keyCommand](...restCommand);
       } catch (e) {
-        console.log(e, e.message);
+        // console.log(e, e.message);
         this.errorHandler.printErrorMessage(e.message);
       }
     });
