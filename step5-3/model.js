@@ -60,7 +60,7 @@ class Model {
   }
 
   saveHistory(keyCommand, recentData) {
-    if (this.historyStack.legnth === this.MAX_HISTORY_CAPACITY) this.historyStack.shift();
+    if (this.historyStack.length === this.MAX_HISTORY_CAPACITY) this.historyStack.shift();
     this.historyStack.push({ keyCommand, recentData });
   }
 
