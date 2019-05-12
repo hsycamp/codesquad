@@ -49,6 +49,11 @@ Controller.prototype = {
     setTimeout(() => {
       this.showAll();
     }, this.SHOW_DELAY);
+  },
+  undo() {
+    const previousData = this.model.undo();
+    console.log(previousData);
+    // this.view.showUndoRedoResult(previousData);
   }
 };
 module.exports = Controller;
