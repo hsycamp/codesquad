@@ -8,10 +8,12 @@ class Node {
 
 class Tokenizer {
   tokenize(str) {
-    str = str.replace(/\s/g, "");
-    str = str.replace(/\[/g, "[,");
-    str = str.replace(/\]/g, ",]");
-    return str.split(",");
+    const token = str
+      .replace(/\s/g, "")
+      .replace(/\[/g, "[,")
+      .replace(/\]/g, ",]")
+      .split(",");
+    return token;
   }
 }
 
@@ -57,8 +59,26 @@ class ArrayParser {
     }
   }
 
+  isValidBracket(token) {
+    let leftBracketCount = 0;
+    let rightBracketCount = 0;
+    token.forEach(el => {
+      if (el === "[") leftBracketCount++;
+      if (el === "]") rightBracketCount++;
+      if (leftBracketCount < rightBracketCount)
+        throw Error("'['개수가 부족합니다.");
+    });
+    if (
+      token.filter(x => x === "[").length !==
+      token.filter(x => x === "]").length
+    ) {
+      throw Error("']'개수가 부족합니다.");
+    }
+  }
+
   startParsing(str) {
     this.queue = this.tokenizer.tokenize(str);
+    this.isValidBracket(this.queue);
     const rootNode = this.queue.shift();
     const lexedRootNode = this.lexer.lex(rootNode);
     return this.arrayParse(lexedRootNode);
@@ -73,6 +93,7 @@ const str2 = "[1, [2, [3, [4, [5, 6], 7], 8], 9], 10]";
 const str3 = "['1a3',[null,false,['11',[112233],112],55, '99'],33, false]";
 const str4 = "['1a'3',[null,false,['11',[112233],112],55, '99'],33, false]";
 const str5 = "[33 ,1,['22',23,[11,[112233],112],55],'33',3d3]";
+const str6 = "[33 ,1,['22',23,[11,[112233],112],55],'33',]]]]";
 
 const result = arrayParser.startParsing(str);
 const result1 = arrayParser.startParsing(str1);
@@ -80,6 +101,7 @@ const result2 = arrayParser.startParsing(str2);
 const result3 = arrayParser.startParsing(str3);
 const result4 = arrayParser.startParsing(str4);
 const result5 = arrayParser.startParsing(str5);
+const result6 = arrayParser.startParsing(str6);
 
 console.log(JSON.stringify(result, null, 2));
 console.log(JSON.stringify(result1, null, 2));
@@ -87,3 +109,4 @@ console.log(JSON.stringify(result2, null, 2));
 console.log(JSON.stringify(result3, null, 2));
 console.log(JSON.stringify(result4, null, 2));
 console.log(JSON.stringify(result5, null, 2));
+console.log(JSON.stringify(result6, null, 2));
