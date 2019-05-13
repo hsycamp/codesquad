@@ -76,12 +76,13 @@ class ArrayParser {
     }
   }
 
-  startParsing(str) {
+  makeParseTree(str) {
     this.queue = this.tokenizer.tokenize(str);
     this.isValidBracket(this.queue);
     const rootNode = this.queue.shift();
     const lexedRootNode = this.lexer.lex(rootNode);
-    return this.arrayParse(lexedRootNode);
+    const parseTree = this.arrayParse(lexedRootNode);
+    return parseTree;
   }
 }
 
@@ -95,13 +96,13 @@ const str4 = "['1a'3',[null,false,['11',[112233],112],55, '99'],33, false]";
 const str5 = "[33 ,1,['22',23,[11,[112233],112],55],'33',3d3]";
 const str6 = "[33 ,1,['22',23,[11,[112233],112],55],'33',]]]]";
 
-const result = arrayParser.startParsing(str);
-const result1 = arrayParser.startParsing(str1);
-const result2 = arrayParser.startParsing(str2);
-const result3 = arrayParser.startParsing(str3);
-const result4 = arrayParser.startParsing(str4);
-const result5 = arrayParser.startParsing(str5);
-const result6 = arrayParser.startParsing(str6);
+const result = arrayParser.makeParseTree(str);
+const result1 = arrayParser.makeParseTree(str1);
+const result2 = arrayParser.makeParseTree(str2);
+const result3 = arrayParser.makeParseTree(str3);
+const result4 = arrayParser.makeParseTree(str4);
+const result5 = arrayParser.makeParseTree(str5);
+const result6 = arrayParser.makeParseTree(str6);
 
 console.log(JSON.stringify(result, null, 2));
 console.log(JSON.stringify(result1, null, 2));
