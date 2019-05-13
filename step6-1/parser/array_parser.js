@@ -55,5 +55,13 @@ const lexer = new Lexer();
 const arrayParser = new ArrayParser(tokenizer, lexer);
 
 const str = "[123, 22, 33]";
+const str1 = "[1, 2, 3, [4, 5], 6, [7, 8], 6]";
+const str2 = "[1, [2, [3, [4, [5, 6], 7], 8], 9], 10]";
+
 const result = arrayParser.startParsing(str);
+const result1 = arrayParser.startParsing(str1);
+const result2 = arrayParser.startParsing(str2);
+
 console.log(JSON.stringify(result, null, 2));
+console.log(JSON.stringify(result1, null, 2));
+console.log(JSON.stringify(result2, null, 2));
