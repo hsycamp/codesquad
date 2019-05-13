@@ -15,7 +15,13 @@ class Tokenizer {
   }
 }
 
-class Lexer {}
+class Lexer {
+  lex(token) {
+    if (token === "[") return new Node("array");
+    if (token === "]") return new Node("endOfArray");
+    return new Node("number", Number(token));
+  }
+}
 
 class ArrayParser {
   constructor(tokenizer, lexer) {
@@ -29,6 +35,5 @@ const lexer = new Lexer();
 const arrayParser = new ArrayParser(tokenizer, lexer);
 
 const str = "[123, 22, 33]";
-console.log(tokenizer.tokenize(str));
 // const result = arrayParser.arrayParse(str);
 // console.log(JSON.stringify(result, null, 2));
